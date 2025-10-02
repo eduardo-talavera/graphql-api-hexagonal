@@ -1,4 +1,4 @@
-import type { UserId } from "../user/value-objects/UserId";
+import type { UserId } from "../user/value-objects/UserId.js";
 
 export class Task {
   constructor(

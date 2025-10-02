@@ -1,8 +1,8 @@
-import type { Task } from "../../domain/task/Task";
-import type { TaskRepository } from "../../domain/task/TaskRepository";
-import { UserByIdNotFoundError } from "../../domain/user/UserErrors";
-import type { UserRepository } from "../../domain/user/UserRepository";
-import type { CreateTaskDto } from "./dto";
+import type { Task } from "../../domain/task/Task.js";
+import type { TaskRepository } from "../../domain/task/TaskRepository.js";
+import { UserByIdNotFoundError } from "../../domain/user/UserErrors.js";
+import type { UserRepository } from "../../domain/user/UserRepository.js";
+import type { CreateTaskDto } from "./dto/CreateTaskDto.js";
 
 export class CreateTask {
   constructor(

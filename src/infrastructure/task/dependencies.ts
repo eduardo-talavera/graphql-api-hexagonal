@@ -1,7 +1,7 @@
-import { UserPrismaRepository } from "../user/repositories/UserPrismaRepository";
-import { TaskPrismaRepository } from "./repositories/TaskPrismaRepository";
-import { CreateTask } from "../../application/task/CreateTask";
-import { CreateTaskController } from "./controllers/CreateTaskController";
+import { UserPrismaRepository } from "../user/repositories/UserPrismaRepository.js";
+import { TaskPrismaRepository } from "./repositories/TaskPrismaRepository.js";
+import { CreateTask } from "../../application/task/CreateTask.js";
+import { CreateTaskController } from "./controllers/CreateTaskController.js";
 
 
 const userRepository = new UserPrismaRepository();

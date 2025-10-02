@@ -1,4 +1,4 @@
-import { UserValidationError } from "../UserErrors";
+import { UserValidationError } from "../UserErrors.js";
 
 export class UserPassword {
   value: string;

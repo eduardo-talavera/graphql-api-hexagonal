@@ -1,5 +1,5 @@
-import type { UserTokenPayloadDto } from "../../application/user/dto";
-import type { JwtAuth } from "../../domain/services/JwtAuth";
+import type { UserTokenPayloadDto } from "../../application/user/dto/UserTokenPayloadDto.js";
+import type { JwtAuth } from "../../domain/services/JwtAuth.js";
 import jwt from "jsonwebtoken";
 
 export class AuthService implements JwtAuth {

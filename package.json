@@ -7,7 +7,8 @@
     "dev": "bun --watch --clear index.ts",
     "migrate:dev": "bunx prisma migrate dev",
     "prisma:deploy": "bunx prisma migrate deploy && prisma generate",
-    "prisma:syncModels": "bunx prisma db push"
+    "prisma:syncModels": "bunx prisma db push",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",

@@ -1,4 +1,4 @@
-import { Server } from "./src/infrastructure/server/Server.js";
+import { Server } from "./infrastructure/server/Server.js";
 
 (async () => {
   const server = new Server();

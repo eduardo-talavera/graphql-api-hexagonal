@@ -1,6 +1,6 @@
-import type { UserEmail } from "./value-objects/UserEmail";
-import type { UserId } from "./value-objects/UserId";
-import type { UserPassword } from "./value-objects/UserPassword";
+import type { UserEmail } from "./value-objects/UserEmail.js";
+import type { UserId } from "./value-objects/UserId.js";
+import type { UserPassword } from "./value-objects/UserPassword.js";
 
 export class User {
   constructor(

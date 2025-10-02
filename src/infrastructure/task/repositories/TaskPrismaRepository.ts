@@ -1,4 +1,4 @@
-import type { CreateTaskDto, UpdateTaskDto } from "../../../application/task/dto";
+import type { CreateTaskDto, UpdateTaskDto } from "../../../application/task/dto/index.js";
 import { Task } from "../../../domain/task/Task.js";
 import type { TaskRepository } from "../../../domain/task/TaskRepository.js";
 import { UserId } from "../../../domain/user/value-objects/UserId.js";
