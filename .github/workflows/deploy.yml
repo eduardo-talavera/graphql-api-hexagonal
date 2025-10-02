@@ -63,15 +63,23 @@ jobs:
         run: bunx vercel pull --yes --environment=${{ env.VERCEL_ENV }} --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Vercel
+        id: vercel-deploy
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          echo "Deploying branch $GITHUB_REF_NAME to $ALIAS"
-
-          bunx vercel deploy \
+          echo "Deploying branch $GITHUB_REF_NAME with env $VERCEL_ENV"
+          DEPLOY_URL=$(bunx vercel deploy \
             --prebuilt \
             --prod --confirm \
             --token=$VERCEL_TOKEN \
             --env NODE_ENV=$NODE_ENV \
-            --env DATABASE_URL=$DATABASE_URL \
-            --alias $ALIAS
+            --env DATABASE_URL=$DATABASE_URL)
+
+          echo "DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_ENV
+
+      - name: Set Vercel Alias
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          echo "Assigning alias $ALIAS to deployment $DEPLOY_URL"
+          bunx vercel alias set $DEPLOY_URL $ALIAS --token=$VERCEL_TOKEN
