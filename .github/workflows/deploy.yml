@@ -69,7 +69,6 @@ jobs:
         run: |
           echo "Deploying branch $GITHUB_REF_NAME with env $VERCEL_ENV"
           DEPLOY_URL=$(bunx vercel deploy \
-            --prebuilt \
             --prod --confirm \
             --token=$VERCEL_TOKEN \
             --env NODE_ENV=$NODE_ENV \
