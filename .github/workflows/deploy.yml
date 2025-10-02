@@ -35,16 +35,19 @@ jobs:
               echo "NODE_ENV=development" >> $GITHUB_ENV
               echo "DATABASE_URL=${{ secrets.DATABASE_URL_DEV }}" >> $GITHUB_ENV
               echo "ALIAS=dev.et-tasks-api.vercel.app" >> $GITHUB_ENV
+              echo "VERCEL_ENV=preview" >> $GITHUB_ENV
               ;;
             qa)
               echo "NODE_ENV=qa" >> $GITHUB_ENV
               echo "DATABASE_URL=${{ secrets.DATABASE_URL_QA }}" >> $GITHUB_ENV
               echo "ALIAS=qa.et-tasks-api.vercel.app" >> $GITHUB_ENV
+              echo "VERCEL_ENV=preview" >> $GITHUB_ENV
               ;;
             main)
               echo "NODE_ENV=production" >> $GITHUB_ENV
               echo "DATABASE_URL=${{ secrets.DATABASE_URL_PROD }}" >> $GITHUB_ENV
               echo "ALIAS=prod.et-tasks-api.vercel.app" >> $GITHUB_ENV
+              echo "VERCEL_ENV=production" >> $GITHUB_ENV
               ;;
           esac
 
@@ -56,24 +59,19 @@ jobs:
       - name: Build project
         run: bun run build
 
+      - name: Pull Vercel Project Settings
+        run: bunx vercel pull --yes --environment=${{ env.VERCEL_ENV }} --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           echo "Deploying branch $GITHUB_REF_NAME to $ALIAS"
-
-          bunx vercel pull --yes --environment=production \
-            --token=$VERCEL_TOKEN \
-            --scope=$VERCEL_ORG_ID
 
           bunx vercel deploy \
             --prebuilt \
             --prod --confirm \
             --token=$VERCEL_TOKEN \
-            --scope=$VERCEL_ORG_ID \
-            --project=$VERCEL_PROJECT_ID \
             --env NODE_ENV=$NODE_ENV \
             --env DATABASE_URL=$DATABASE_URL \
             --alias $ALIAS
