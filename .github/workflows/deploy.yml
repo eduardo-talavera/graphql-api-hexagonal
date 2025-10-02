@@ -34,19 +34,19 @@ jobs:
             dev)
               echo "NODE_ENV=development" >> $GITHUB_ENV
               echo "DATABASE_URL=${{ secrets.DATABASE_URL_DEV }}" >> $GITHUB_ENV
-              echo "ALIAS=dev.et-tasks-api.vercel.app" >> $GITHUB_ENV
+              echo "ALIAS=dev.graphql-api-hexagonal-eduardotalaveras-projects.vercel.app" >> $GITHUB_ENV
               echo "VERCEL_ENV=preview" >> $GITHUB_ENV
               ;;
             qa)
               echo "NODE_ENV=qa" >> $GITHUB_ENV
               echo "DATABASE_URL=${{ secrets.DATABASE_URL_QA }}" >> $GITHUB_ENV
-              echo "ALIAS=qa.et-tasks-api.vercel.app" >> $GITHUB_ENV
+              echo "ALIAS=qa.graphql-api-hexagonal-eduardotalaveras-projects.vercel.app" >> $GITHUB_ENV
               echo "VERCEL_ENV=preview" >> $GITHUB_ENV
               ;;
             main)
               echo "NODE_ENV=production" >> $GITHUB_ENV
               echo "DATABASE_URL=${{ secrets.DATABASE_URL_PROD }}" >> $GITHUB_ENV
-              echo "ALIAS=prod.et-tasks-api.vercel.app" >> $GITHUB_ENV
+              echo "ALIAS=graphql-api-hexagonal-eduardotalaveras-projects.vercel.app" >> $GITHUB_ENV
               echo "VERCEL_ENV=production" >> $GITHUB_ENV
               ;;
           esac
