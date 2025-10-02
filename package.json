@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun --watch --clear index.ts",
+    "dev": "bun --watch --clear src/index.ts",
+    "start": "bun dist/index.js",
     "migrate:dev": "bunx prisma migrate dev",
     "prisma:deploy": "bunx prisma migrate deploy && prisma generate",
     "prisma:syncModels": "bunx prisma db push",
