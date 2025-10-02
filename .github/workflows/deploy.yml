@@ -1,0 +1,79 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches:
+      - dev
+      - qa
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: bunx prisma generate
+
+      - name: Set environment vars
+        id: set-env
+        run: |
+          BRANCH_NAME=${GITHUB_REF##*/}
+          case "$BRANCH_NAME" in
+            dev)
+              echo "NODE_ENV=development" >> $GITHUB_ENV
+              echo "DATABASE_URL=${{ secrets.DATABASE_URL_DEV }}" >> $GITHUB_ENV
+              echo "ALIAS=dev.et-tasks-api.vercel.app" >> $GITHUB_ENV
+              ;;
+            qa)
+              echo "NODE_ENV=qa" >> $GITHUB_ENV
+              echo "DATABASE_URL=${{ secrets.DATABASE_URL_QA }}" >> $GITHUB_ENV
+              echo "ALIAS=qa.et-tasks-api.vercel.app" >> $GITHUB_ENV
+              ;;
+            main)
+              echo "NODE_ENV=production" >> $GITHUB_ENV
+              echo "DATABASE_URL=${{ secrets.DATABASE_URL_PROD }}" >> $GITHUB_ENV
+              echo "ALIAS=prod.et-tasks-api.vercel.app" >> $GITHUB_ENV
+              ;;
+          esac
+
+      - name: Apply Prisma Migrations
+        run: bunx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+
+      - name: Build project
+        run: bun run build
+
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          echo "Deploying branch $GITHUB_REF_NAME to $ALIAS"
+
+          bunx vercel pull --yes --environment=production \
+            --token=$VERCEL_TOKEN \
+            --scope=$VERCEL_ORG_ID
+
+          bunx vercel deploy \
+            --prebuilt \
+            --prod --confirm \
+            --token=$VERCEL_TOKEN \
+            --scope=$VERCEL_ORG_ID \
+            --project=$VERCEL_PROJECT_ID \
+            --env NODE_ENV=$NODE_ENV \
+            --env DATABASE_URL=$DATABASE_URL \
+            --alias $ALIAS

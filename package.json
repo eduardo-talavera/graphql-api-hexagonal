@@ -1,0 +1,27 @@
+{
+  "name": "graphql-api-hexagonal",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun --watch --clear index.ts",
+    "migrate:dev": "bunx prisma migrate dev",
+    "prisma:deploy": "bunx prisma migrate deploy && prisma generate",
+    "prisma:syncModels": "bunx prisma db push"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/bun": "latest",
+    "@types/jsonwebtoken": "^9.0.10",
+    "prisma": "^6.16.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@apollo/server": "^5.0.0",
+    "@prisma/client": "^6.16.3",
+    "bcrypt": "^6.0.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
